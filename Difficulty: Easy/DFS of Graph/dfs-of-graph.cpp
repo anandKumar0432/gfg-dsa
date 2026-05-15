@@ -1,26 +1,25 @@
 class Solution {
   public:
   
-    void solve(int node, vector<vector<int>>& adj, unordered_map<int, bool>& visited, vector<int>& res){
-        res.push_back(node);
-        visited[node] = true;
-        
-        for(int i=0; i<adj[node].size(); i++){
-            int neighbour = adj[node][i];
-            if(!visited[neighbour]){
-                solve(neighbour, adj, visited, res);
+    void dfsRec(vector<vector<int>>& adj, vector<int> &visited, 
+        vector<int> &res, int s){
+            visited[s] = true;
+            res.push_back(s);
+            
+            for(int x : adj[s]){
+                if(!visited[x]){
+                    dfsRec(adj, visited, res, x);
+                }
             }
         }
-    }
+    
     vector<int> dfs(vector<vector<int>>& adj) {
         // Code here
+        vector<int> visited(adj.size(), false);
         vector<int> res;
-        unordered_map<int, bool> visited;
-        for(int i=0; i<adj.size(); i++){
-            if(!visited[i]){
-                solve(i, adj, visited, res);
-            }
-        }
+        
+        dfsRec(adj, visited, res, 0);
+        
         return res;
     }
 };
